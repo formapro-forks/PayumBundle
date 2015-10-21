@@ -20,6 +20,10 @@ interface GatewayFactoryInterface
     /**
      * Method could be used to load services which you need always, even if you do not create any gateways with this factory riht now.
      * It could a gateway factory service for example
+     *
+     * @param ContainerBuilder $container
+     *
+     * @return void
      */
     function load(ContainerBuilder $container);
 

@@ -6,6 +6,7 @@ use Payum\Core\Bridge\Twig\TwigFactory;
 use Payum\Core\Exception\InvalidArgumentException;
 use Payum\Bundle\PayumBundle\DependencyInjection\Factory\Storage\StorageFactoryInterface;
 use Payum\Core\Exception\LogicException;
+use Payum\Core\Gateway;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -64,18 +65,9 @@ class PayumExtension extends Extension implements PrependExtensionInterface
     {
         $bundles = $container->getParameter('kernel.bundles');
 
-        if (isset($bundles['TwigBundle'])) {
-            $container->prependExtensionConfig('twig', array(
-                'paths' => array(
-                    TwigFactory::guessViewsPath('Payum\Core\Gateway') => 'PayumCore',
-                    TwigFactory::guessViewsPath('Payum\Core\Bridge\Symfony\ReplyToSymfonyResponseConverter') => 'PayumSymfonyBridge',
-                )
-            ));
-
-            foreach ($this->gatewaysFactories as $factory) {
-                if ($factory instanceof PrependExtensionInterface) {
-                    $factory->prepend($container);
-                }
+        foreach ($this->gatewaysFactories as $factory) {
+            if ($factory instanceof PrependExtensionInterface) {
+                $factory->prepend($container);
             }
         }
 
@@ -83,7 +75,7 @@ class PayumExtension extends Extension implements PrependExtensionInterface
             foreach ($container->getExtensionConfig('doctrine') as $config) {
                 // do not register mappings if dbal not configured.
                 if (false == empty($config['dbal'])) {
-                    $rc = new \ReflectionClass('Payum\Core\Gateway');
+                    $rc = new \ReflectionClass(Gateway::class);
                     $payumRootDir = dirname($rc->getFileName());
 
                     $container->prependExtensionConfig('doctrine', array(

@@ -6,7 +6,7 @@ use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
-use Payum\Bundle\PayumBundle\DependencyInjection\Factory\Gateway\AbstractGatewayFactory;
+use Payum\Bundle\PayumBundle\DependencyInjection\Factory\Gateway\GatewayFactory;
 use Symfony\Component\HttpKernel\Kernel;
 
 class AbstractGatewayFactoryTest extends \PHPUnit_Framework_TestCase
@@ -328,7 +328,7 @@ class AbstractGatewayFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|AbstractGatewayFactory
+     * @return \PHPUnit_Framework_MockObject_MockObject|GatewayFactory
      */
     protected function createAbstractGatewayFactory()
     {

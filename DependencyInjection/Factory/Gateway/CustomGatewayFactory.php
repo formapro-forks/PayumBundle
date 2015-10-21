@@ -1,13 +1,18 @@
 <?php
 namespace Payum\Bundle\PayumBundle\DependencyInjection\Factory\Gateway;
 
+use Payum\Core\GatewayFactory as PayumGatewayFactory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 
-class CustomGatewayFactory extends AbstractGatewayFactory
+class CustomGatewayFactory extends GatewayFactory
 {
+    public function __construct()
+    {
+        parent::__construct('custom', new PayumGatewayFactory());
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -26,14 +31,6 @@ class CustomGatewayFactory extends AbstractGatewayFactory
     public function getName()
     {
         return 'custom';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function getPayumGatewayFactoryClass()
-    {
-        return 'Payum\Core\GatewayFactory';
     }
 
     /**
